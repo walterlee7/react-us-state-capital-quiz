@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import './quiz';
+
 
 class App extends Component {
 
@@ -27,12 +29,14 @@ class App extends Component {
                     </span>
 
                     <span>&nbsp;&nbsp;
-            <button onClick="startGame()" id="restart" style={{ cursor: 'pointer' }}>Restart</button>
+            <button
+                            // onClick="startGame()"
+                            id="restart" style={{ cursor: 'pointer' }}>Restart</button>
                     </span>
                     <div id="pnlRestart">
                     </div>
                 </div>
-            </Fragment >
+            </Fragment>
 
         );
     }
