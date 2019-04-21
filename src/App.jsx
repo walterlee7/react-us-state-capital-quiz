@@ -7,7 +7,8 @@ class App extends Component {
         super(props);
 
         this.state = {
-
+            gameTime: 0,
+            end: 0,
         };
     }
 
@@ -19,18 +20,28 @@ class App extends Component {
         let start = new Date();
         $('#timer').html('0:00');
         $('#score').html('Score: 0%');
-        let gameTime = setInterval(function () {
-            let gameDuration = new Date() - start;
-            let totalSeconds = Math.round(gameDuration / 1000);
-            var minutes = Math.floor(totalSeconds / 60);
-            var seconds = totalSeconds % 60;
-            var pad = "00";
-            pad = pad.toString();
-            seconds = seconds.toString();
-            seconds = pad.substring(0, pad.length - seconds.length) + seconds;
-            let newTime = minutes + ":" + seconds;
-            $('#timer').html(newTime);
-        }, 1000);
+
+        this.setState({
+            gameTime: setInterval(function () {
+                let gameDuration = new Date() - start;
+                let totalSeconds = Math.round(gameDuration / 1000);
+                var minutes = Math.floor(totalSeconds / 60);
+                var seconds = totalSeconds % 60;
+                var pad = "00";
+                pad = pad.toString();
+                seconds = seconds.toString();
+                seconds = pad.substring(0, pad.length - seconds.length) + seconds;
+                let newTime = minutes + ":" + seconds;
+                $('#timer').html(newTime);
+            }, 1000)
+        })
+    }
+
+    stopTimer() {
+        this.setState({
+            end: new Date()
+        })
+        clearTimeout(this.state.gameTime);
     }
 
     render() {
@@ -63,6 +74,8 @@ class App extends Component {
                     </span>
                     <div id="pnlRestart">
                     </div>
+                    <button onClick={() => { this.stopTimer(); }}
+                        className="stopTimer">Stop</button>
                 </div>
             </Fragment>
 

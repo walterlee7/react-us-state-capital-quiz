@@ -25,6 +25,18 @@ body{
     box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
 }
 
+.stopTimer {
+    cursor: pointer;
+    border: 1px solid black;
+    padding: 0.3em;
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 25px;
+    background-color: rgb(245, 193, 96);
+    box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+    margin: 0.5em;
+}
+
 .clear {
     clear: both;
 }
