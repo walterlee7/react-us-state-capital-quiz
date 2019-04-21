@@ -9,7 +9,7 @@ class App extends Component {
         return (
             <Fragment>
                 <div className="title-wrapper">
-                    <p className="title">JavaScript U.S. State Capital Quiz</p>
+                    <p className="title">React U.S. State Capital Quiz</p>
                 </div>
                 <div className="gamewindow" style={{ marginTop: + '0', minHeight: + '500' }}>
                     <div id="gamewrapper" style={{ position: 'relative', backgroundColor: '#deded7', width: '100%', minHeight: + '500' }}>
