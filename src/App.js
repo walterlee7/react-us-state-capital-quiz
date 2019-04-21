@@ -1,28 +1,41 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+
+
+    render() {
+        return (
+            <Fragment>
+                <div className="title-wrapper">
+                    <p className="title">JavaScript U.S. State Capital Quiz</p>
+                </div>
+                <div className="gamewindow" style={{ marginTop: + '0', minHeight: + '500' }}>
+                    <div id="gamewrapper" style={{ position: 'relative', backgroundColor: '#deded7', width: '100%', minHeight: + '500' }}>
+
+                        <div id="HUD">
+                            <span id="timer"></span>
+                            <span id="score"></span>
+                            <span id="questionCount"></span>
+                        </div>
+                        <div className="q-header"></div>
+                        <div className="q-wrapper" style={{ paddingLeft: + '20' }}>...</div>
+                    </div>
+                </div>
+                <div id="optionsRight" style={{ paddingRight: + '50', clear: 'both' }}>
+                    <span>
+                        {/* <input id="cbSoundOn" type="checkbox" name="cbSoundOn" checked="checked" /><label for="cbSoundOn">Sound On</label> */}
+                    </span>
+
+                    <span>&nbsp;&nbsp;
+            <button onClick="startGame()" id="restart" style={{ cursor: 'pointer' }}>Restart</button>
+                    </span>
+                    <div id="pnlRestart">
+                    </div>
+                </div>
+            </Fragment >
+
+        );
+    }
 }
 
 export default App;
