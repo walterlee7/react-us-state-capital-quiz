@@ -1,10 +1,5 @@
 import $ from 'jquery';
 
-console.log('Hello');
-
-let quizImgDir;
-
-var totalSeconds;
 var container;
 var arrQuestions = [];
 var currentQuestion = 0;
@@ -17,8 +12,8 @@ var end;
 var gameDuration;
 
 var imgsLoaded = 0;
-// var cellWidth;
-// var cellPadding = 10;
+var cellWidth;
+var cellPadding = 10;
 var maxImgHeight = [10];
 var correctClicks = 0;
 var wrongClicks = 0;
@@ -26,20 +21,11 @@ var totalClicks = 0;
 var score;
 var gameTime;
 var newTime = 0;
-// var flasher;
-// var qid = 0;
+var flasher;
+var qid = 0;
 var q;
 var clickTrans;
-var usingTouch;
-var arrFlagData;
 
-// function saveHighScore() {
-//     $.cookie("nickname", $("#nickname").val());
-//     updateReport(exID, $.cookie("memberName"), $.cookie("memberId"), score, start, end, gameDuration, correctClicks, totalClicks - correctClicks, '', $.cookie("ip"), lang, $.cookie("sessionId"), $.cookie("nickname"))
-
-//     setTimeout(function () { getHighScores($.cookie("memberId")) }, 1000);
-//     hideCompletion();
-// }
 
 function setupGame() {
 
@@ -83,6 +69,8 @@ function setupGame() {
     //console.log(arrQuestions)
     setTimeout(function () { startGame(); }, 200)
 }
+
+
 
 
 function setMaxH(h) {
@@ -162,9 +150,9 @@ function constructQuestionPanel(q) {
     var qHtml = "";
 
 
-    var qHtml = '<div className="q-container" >';
-    var clearHtml = '<div className="clear"></div>';
-    for (let i = 0; i < q.arrAnswers.length; i++) {
+    var qHtml = '<div class="q-container" >';
+    var clearHtml = '<div class="clear"></div>';
+    for (i = 0; i < q.arrAnswers.length; i++) {
         var a = q.arrAnswers[i];
         if (a.correct == "1") {
             corrId = a.id;
@@ -173,23 +161,23 @@ function constructQuestionPanel(q) {
     }
 
     if (q.questionLayout == 1) {
-        var bHtml = '<div id="divTextAfter"></div><div id="btnPrevious" className="btnBrowse" style="float:left;margin-right:2em;"><<</div><div id="btnNext" className="btnBrowse" style="float:left; margin-right:3.3em;">>></div>'
-        // aHtml = '<div className="a-wrapper qi">' + aHtml + bHtml + '</div><div className="q-img q-img1"><img id="theImg" src="' + quizImgDir + qImage + '"/></div></div>'
+        var bHtml = '<div id="divTextAfter"></div><div id="btnPrevious" class="btnBrowse" style="float:left;margin-right:2em;"><<</div><div id="btnNext" class="btnBrowse" style="float:left; margin-right:3.3em;">>></div>'
+        // aHtml = '<div class="a-wrapper qi">' + aHtml + bHtml + '</div><div class="q-img q-img1"><img id="theImg" src="' + quizImgDir + qImage + '"/></div></div>'
 
-        aHtml = '<div className="a-wrapper qi">' + aHtml + bHtml + '</div>'
+        aHtml = '<div class="a-wrapper qi">' + aHtml + bHtml + '</div>'
 
 
-        qHtml = '<div className="q-header" >' + qText + '</div><div className="q-wrapper" style="padding-left:20px;">' + qHtml + aHtml + '</div>';
+        qHtml = '<div class="q-header" >' + qText + '</div><div class="q-wrapper" style="padding-left:20px;">' + qHtml + aHtml + '</div>';
 
         container.append(qHtml);
     }
 
     if (q.questionLayout == 2) {
         var bHtml = '<div id="divTextAfter"></div>'
-        aHtml = '<div className="a-wrapper qi2" style="min-height:750px;">' + aHtml + bHtml + '<div className="q-img q-img2"><img  id="theImg" src="' + quizImgDir + qImage + '"/></div><div id="buttonDiv"><div id="btnPrevious" className="btnBrowse" style="float:left"><<</div><div id="btnNext" className="btnBrowse" style="float:right">>></div></div> </div></div>'
+        aHtml = '<div class="a-wrapper qi2" style="min-height:750px;">' + aHtml + bHtml + '<div class="q-img q-img2"><img  id="theImg" src="' + quizImgDir + qImage + '"/></div><div id="buttonDiv"><div id="btnPrevious" class="btnBrowse" style="float:left"><<</div><div id="btnNext" class="btnBrowse" style="float:right">>></div></div> </div></div>'
 
 
-        qHtml = '<div className="q-header" >' + qText + '</div><div className="q-wrapper">' + qHtml + aHtml + '</div>';
+        qHtml = '<div class="q-header" >' + qText + '</div><div class="q-wrapper">' + qHtml + aHtml + '</div>';
 
         container.append(qHtml);
         //$(".answer").width(400)
@@ -268,7 +256,7 @@ function constructQuestionPanel(q) {
 
                 arrQuestions[currentQuestion].answered = 1;
 
-                playCorrectAnswerSound();
+
                 correctClicks++;
                 item.addClass("correct");
                 item.removeClass("activeanswer");
@@ -299,7 +287,7 @@ function constructQuestionPanel(q) {
 
 
             } else {
-                playWrongAnswerSound();
+
                 item.addClass("wrong");
                 item.removeClass("activeanswer");
                 wrongClicks++;
@@ -329,7 +317,7 @@ function constructAnswer(aTxt, aId, aClicked, aCorrect) {
     if (aClicked == 1 && aCorrect == 0) extraClass = 'wrong';
     if (aClicked == 1 && aCorrect == 1) extraClass = 'correct';
 
-    cellHtml = '<div className="answer ' + extraClass + '" id="' + aId + '" ><div className="a-content" ><div className="text" >' + aTxt + '</div></div></div>';
+    cellHtml = '<div class="answer ' + extraClass + '" id="' + aId + '" ><div class="a-content" ><div class="text" >' + aTxt + '</div></div></div>';
 
     return cellHtml;
 
@@ -502,18 +490,3 @@ var by = function (path, reverse, primer, then) {
 };
 
 
-function playWrongAnswerSound() {
-    var s = $("#WrongAnswerSound")[0];
-    try {
-        if ($("#cbSoundOn").prop("checked") == true) { s.play() };
-    } catch (e) { }
-}
-
-
-
-function playCorrectAnswerSound() {
-    var s = $("#CorrectAnswerSound")[0];
-    try {
-        if ($("#cbSoundOn").prop("checked") == true) { s.play() };
-    } catch (e) { }
-}

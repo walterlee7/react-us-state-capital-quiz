@@ -1,9 +1,37 @@
 import React, { Component, Fragment } from 'react';
-import './quiz';
+import $ from 'jquery';
 
 
 class App extends Component {
+    constructor(props) {
+        super(props);
 
+        this.state = {
+
+        };
+    }
+
+    componentDidMount() {
+        this.startTimer();
+    }
+
+    startTimer() {
+        let start = new Date();
+        $('#timer').html('0:00');
+        $('#score').html('Score: 0%');
+        let gameTime = setInterval(function () {
+            let gameDuration = new Date() - start;
+            let totalSeconds = Math.round(gameDuration / 1000);
+            var minutes = Math.floor(totalSeconds / 60);
+            var seconds = totalSeconds % 60;
+            var pad = "00";
+            pad = pad.toString();
+            seconds = seconds.toString();
+            seconds = pad.substring(0, pad.length - seconds.length) + seconds;
+            let newTime = minutes + ":" + seconds;
+            $('#timer').html(newTime);
+        }, 1000);
+    }
 
     render() {
         return (
