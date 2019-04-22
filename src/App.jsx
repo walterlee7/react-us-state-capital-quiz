@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import $ from 'jquery';
 
-
 class App extends Component {
     constructor(props) {
         super(props);
@@ -14,26 +13,24 @@ class App extends Component {
             wrongClicks: 0,
             totalClicks: 0,
             strQuestions: [],
-            data: new Request('questions.json'),
         };
     }
 
     componentDidMount() {
         this.startTimer();
-        fetch(this.state.data)
+        this.getData();
+    }
+
+    getData() {
+        fetch('./questions.json')
             .then((res) => {
-                console.log('res')
-                console.dir(res);
                 return res.json();
             })
             .then((data) => {
                 this.setState({ strQuestions: data });
+                console.log(this.state.strQuestions);
             });
     }
-
-
-
-
 
     startTimer() {
         let start = new Date();
