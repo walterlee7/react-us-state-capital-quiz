@@ -9,12 +9,31 @@ class App extends Component {
         this.state = {
             gameTime: 0,
             end: 0,
+            score: 0,
+            correctClicks: 0,
+            wrongClicks: 0,
+            totalClicks: 0,
+            strQuestions: [],
+            data: new Request('questions.json'),
         };
     }
 
     componentDidMount() {
         this.startTimer();
+        fetch(this.state.data)
+            .then((res) => {
+                console.log('res')
+                console.dir(res);
+                return res.json();
+            })
+            .then((data) => {
+                this.setState({ strQuestions: data });
+            });
     }
+
+
+
+
 
     startTimer() {
         let start = new Date();
@@ -42,6 +61,29 @@ class App extends Component {
             end: new Date()
         })
         clearTimeout(this.state.gameTime);
+    }
+
+    clearScore() {
+        this.setState({
+            score: 0,
+            correctClicks: 0,
+            wrongClicks: 0,
+            totalClicks: 0,
+        })
+
+        $("#score").html("Score: 0%");
+    }
+
+    updateScore() {
+        this.setState({
+            score: Math.round(this.state.correctClicks / this.state.totalClicks * 100)
+        })
+
+        if (!isNaN(this.state.score) && this.state.score >= 0) {
+            $("#score").html("Score: " + this.state.score + "%");
+        } else {
+            $("#score").html("");
+        }
     }
 
     render() {

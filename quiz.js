@@ -28,8 +28,6 @@ var clickTrans;
 
 
 function setupGame() {
-
-    hideCompletion();
     stopTimer();
     clearScore();
     $("#gameWrapper").html("");
@@ -39,22 +37,10 @@ function setupGame() {
     $(".q-container").remove();
     $(".a-wrapper").remove();
     $(".q-wrapper").remove();
-
     currentQuestion = 0;
-
     container = $("#gamewrapper");
-
-    // gameID = exid;
-
-    // create hidden panel for completed game
-    // setupCompletion();
-
-    // var compPanel = $("#completion");
-    // $("#HUDGroup").show();
-
     arrQuestions = strQuestions;
     arrQuestions.sort(by("qSortOrder"))
-
     var i, j;
     for (i = 0; i < arrQuestions.length; i++) {
         arrQuestions[i].arrAnswers = JSON.parse(arrQuestions[i].answers)
@@ -62,31 +48,51 @@ function setupGame() {
         for (j = 0; j < arrQuestions[i].arrAnswers.length; j++) {
             arrQuestions[i].arrAnswers[j].id = j;
         }
-        // console.log(arrQuestions[i].arrAnswers)
     }
-
-
-    //console.log(arrQuestions)
     setTimeout(function () { startGame(); }, 200)
 }
 
+var by = function (path, reverse, primer, then) {
+    var get = function (obj, path) {
+        if (path) {
+            path = path.split('.');
+            for (var i = 0, len = path.length - 1; i < len; i++) {
+                obj = obj[path[i]];
+            };
+            return obj[path[len]];
+        }
+        return obj;
+    },
+        prime = function (obj) {
+            return primer ? primer(get(obj, path)) : get(obj, path);
+        };
+
+    return function (a, b) {
+        var A = prime(a),
+            B = prime(b);
+
+        return (
+            (A < B) ? -1 :
+                (A > B) ? 1 :
+                    (typeof then === 'function') ? then(a, b) : 0
+        ) * [1, -1][+!!reverse];
+    };
+};
 
 
+// function setMaxH(h) {
+//     maxImgHeight.push(h);
+//     imgsLoaded++;
+//     if (maxImgHeight.length >= arrFlagData.length) {
+//         var maxH = Math.max.apply(null, maxImgHeight);
+//     }
 
-function setMaxH(h) {
-    maxImgHeight.push(h);
-    imgsLoaded++;
-    if (maxImgHeight.length >= arrFlagData.length) {
-        var maxH = Math.max.apply(null, maxImgHeight);
-
-    }
-
-    $("#qlabel2").html("Loading " + imgsLoaded + "/" + arrFlagData.length)
-    if (imgsLoaded >= arrFlagData.length) {
-        startTimer();
-        startGame();
-    }
-}
+//     $("#qlabel2").html("Loading " + imgsLoaded + "/" + arrFlagData.length)
+//     if (imgsLoaded >= arrFlagData.length) {
+//         startTimer();
+//         startGame();
+//     }
+// }
 
 
 // question handling
@@ -100,10 +106,8 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
-
 
 function startGame() {
     clearScore();
@@ -121,21 +125,14 @@ function startGame() {
     }
     currentQuestion = 0;
     nextQuestion();
-
 }
 
 function nextQuestion() {
-    // arrQuestions = shuffle(arrQuestions);
+    arrQuestions = shuffle(arrQuestions);
     console.log('Showing question ' + currentQuestion)
     q = arrQuestions[currentQuestion];
     constructQuestionPanel(q)
     $("#questionCount").html(currentQuestion + 1 + "/" + arrQuestions.length + " ");
-    // if (currentQuestion < arrQuestions.length) {
-    //     var nextImg = new Image();
-    //     console.log("LOADING " + quizImgDir + arrQuestions[currentQuestion + 1].image)
-    //     nextImg.src = quizImgDir + arrQuestions[currentQuestion + 1].image;
-    // }
-
 }
 
 
@@ -148,7 +145,6 @@ function constructQuestionPanel(q) {
     console.log(qText)
     var aHtml = "";
     var qHtml = "";
-
 
     var qHtml = '<div class="q-container" >';
     var clearHtml = '<div class="clear"></div>';
@@ -214,12 +210,7 @@ function constructQuestionPanel(q) {
         $("#btnPrevious").hide();
     }
 
-    // add events
-
-
-    // center answers against question image
     $(".q-img img").on("load", function () {
-
         adjustAnswerPosition();
     })
 
@@ -241,22 +232,14 @@ function constructQuestionPanel(q) {
         nextQuestion();
     })
 
-
     $(".answer").on("click", function () {
         var item = $(this);
         var thisId = item.attr("id");
-
         arrQuestions[currentQuestion].arrAnswers[thisId].clicked = 1;
-        //console.log(item)
-        //console.log(thisId + " " + corrId)
         totalClicks++;
-        if (arrQuestions[currentQuestion].answered == 0) {
-
-            if (corrId == thisId) {
-
+        if (arrQuestions[currentQuestion].answered === 0) {
+            if (corrId === thisId) {
                 arrQuestions[currentQuestion].answered = 1;
-
-
                 correctClicks++;
                 item.addClass("correct");
                 item.removeClass("activeanswer");
@@ -274,38 +257,22 @@ function constructQuestionPanel(q) {
 
                         nextQuestion();
                     })
-
                 } else {
-                    // game over
                     currentQuestion--;
                     $(".activeanswer").removeClass("activeanswer");
                     stopTimer();
                     updateScore();
-                    // setupCompletion();
-                    // showCompletion();
                 }
-
-
             } else {
-
                 item.addClass("wrong");
                 item.removeClass("activeanswer");
                 wrongClicks++;
-                // item.css("opacity", 0.35);
-
                 item.animate({ opacity: 0.75 }, 1000);
                 item.off();
-
             }
-
-
             updateScore();
-
         }
-
     })
-
-    // startTimer();
 }
 
 function constructAnswer(aTxt, aId, aClicked, aCorrect) {
@@ -320,7 +287,6 @@ function constructAnswer(aTxt, aId, aClicked, aCorrect) {
     cellHtml = '<div class="answer ' + extraClass + '" id="' + aId + '" ><div class="a-content" ><div class="text" >' + aTxt + '</div></div></div>';
 
     return cellHtml;
-
 }
 
 
@@ -330,8 +296,6 @@ function adjustAnswerPosition() {
         var qh = $(".q-container").height();
         var am = (qh / 2) - ($(".a-wrapper").height() / 2);
 
-
-
         if ($(".a-wrapper.qi .answer.image").length > 0) {
             console.log(am);
 
@@ -340,7 +304,6 @@ function adjustAnswerPosition() {
                 qh = 70 * 6;
             } else {
                 am = qh / 6;
-
             }
 
             $(".a-wrapper").css("margin-top", am + "px");
@@ -352,25 +315,6 @@ function adjustAnswerPosition() {
     }
 }
 
-//function setup
-
-function clearScore() {
-    score = 0;
-    correctClicks = 0;
-    wrongClicks = 0;
-    totalClicks = 0;
-    $("#score").html("Score: 0%");
-}
-
-function updateScore() {
-
-    score = Math.round(correctClicks / totalClicks * 100)
-    if (!isNaN(score) && score >= 0) {
-        $("#score").html("Score: " + score + "%");
-    } else {
-        $("#score").html("");
-    }
-}
 
 // utilities
 
@@ -399,16 +343,42 @@ Array.prototype.removeFirst = function () {
 };
 
 
-function getCleanName(dirtyText) {
-    var cleanText = dirtyText.replace(/\ /g, '_');
 
-    cleanText = cleanText.replace(/[|&;$%@"<>()+,.:#]/g, "");
-    return cleanText;
+
+
+
+// function getCleanName(dirtyText) {
+//     var cleanText = dirtyText.replace(/\ /g, '_');
+
+//     cleanText = cleanText.replace(/[|&;$%@"<>()+,.:#]/g, "");
+//     return cleanText;
+// }
+
+// function getDisplayName(cleanText) {
+//     var displayText = cleanText.replace("_", " ");
+//     return displayText;
+// }
+
+
+
+
+//function setup
+
+function clearScore() {
+    score = 0;
+    correctClicks = 0;
+    wrongClicks = 0;
+    totalClicks = 0;
+    $("#score").html("Score: 0%");
 }
 
-function getDisplayName(cleanText) {
-    var displayText = cleanText.replace("_", " ");
-    return displayText;
+function updateScore() {
+    score = Math.round(correctClicks / totalClicks * 100)
+    if (!isNaN(score) && score >= 0) {
+        $("#score").html("Score: " + score + "%");
+    } else {
+        $("#score").html("");
+    }
 }
 
 
@@ -427,9 +397,7 @@ function startTimer() {
         pad = pad.toString();
         seconds = seconds.toString();
         seconds = pad.substring(0, pad.length - seconds.length) + seconds;
-
         newTime = minutes + ":" + seconds;
-
         $('#timer').html(newTime);
     }, 1000);
 
@@ -440,53 +408,20 @@ function stopTimer() {
     clearTimeout(gameTime);
 }
 
-function hideCompletion() {
+// function hideCompletion() {
+//     $("#completion").hide();
+// }
 
-    $("#completion").hide();
-
-}
-
-function showCompletion() {
-
-    $("#completion").show();
-
-    if ($.cookie("hasAccount") == "true") {
-        console.log("game complete")
-
-
-        $("#nickname").val($.cookie("nickname"))
-
-    }
-
-}
+// function showCompletion() {
+//     $("#completion").show();
+//     if ($.cookie("hasAccount") === "true") {
+//         console.log("game complete")
+//         $("#nickname").val($.cookie("nickname"))
+//     }
+// }
 
 
 
-var by = function (path, reverse, primer, then) {
-    var get = function (obj, path) {
-        if (path) {
-            path = path.split('.');
-            for (var i = 0, len = path.length - 1; i < len; i++) {
-                obj = obj[path[i]];
-            };
-            return obj[path[len]];
-        }
-        return obj;
-    },
-        prime = function (obj) {
-            return primer ? primer(get(obj, path)) : get(obj, path);
-        };
 
-    return function (a, b) {
-        var A = prime(a),
-            B = prime(b);
-
-        return (
-            (A < B) ? -1 :
-                (A > B) ? 1 :
-                    (typeof then === 'function') ? then(a, b) : 0
-        ) * [1, -1][+!!reverse];
-    };
-};
 
 
