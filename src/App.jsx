@@ -223,7 +223,7 @@ class App extends Component {
         let qHtml = "";
         let bHtml = "";
 
-        qHtml = "<div className='q-container' >";
+        qHtml = "<div class='q-container' >";
 
         for (let i = 0; i < q.arrAnswers.length; i++) {
             var a = q.arrAnswers[i];
@@ -236,18 +236,18 @@ class App extends Component {
         }
 
         if (q.questionLayout === 1) {
-            bHtml = "<div id='divTextAfter'></div><div id='btnPrevious' className='btnBrowse' style={{float:'left', margin-right: '2em'}}><<</div><div id='btnNext' className='btnBrowse' style={{float: 'left', margin-right: '3.3em'}}>>></div>";
+            bHtml = "<div id='divTextAfter'></div><div id='btnPrevious' class='btnBrowse' style={{float:'left', margin-right: '2em'}}><<</div><div id='btnNext' class='btnBrowse' style={{float: 'left', margin-right: '3.3em'}}>>></div>";
 
-            aHtml = '<div className="a-wrapper qi">' + aHtml + bHtml + '</div>'
+            aHtml = '<div class="a-wrapper qi">' + aHtml + bHtml + '</div>'
 
-            qHtml = "<div className='q-header' >' " + qText + "</div><div className='q-wrapper' style={{padding-left: '20px'}}>" + qHtml + aHtml + "</div>";
+            qHtml = "<div class='q-header' > " + qText + "</div><div class='q-wrapper' style={{padding-left: '20px'}}>" + qHtml + aHtml + "</div>";
 
             this.state.container.append(qHtml);
         }
 
         if (q.questionLayout === 2) {
             bHtml = "<div id='divTextAfter'></div>";
-            aHtml = "<div className='a-wrapper qi2' style={{min-height: '750px'}}>" + aHtml + bHtml + "<div className='q-img q-img2'><img id='theImg' src='' /></div><div id='buttonDiv'><div id='btnPrevious' className='btnBrowse' style={{float: 'left'}}><<</div><div id='btnNext' className='btnBrowse' style={{float: 'right'}}>>></div></div> </div></div>";
+            aHtml = "<div class='a-wrapper qi2' style={{min-height: '750px'}}>" + aHtml + bHtml + "<div class='q-img q-img2'><img id='theImg' src='' /></div><div id='buttonDiv'><div id='btnPrevious' class='btnBrowse' style={{float: 'left'}}><<</div><div id='btnNext' class='btnBrowse' style={{float: 'right'}}>>></div></div> </div></div>";
             qHtml = "<div class='q-header' >" + qText + "</div><div class='q-wrapper'>" + qHtml + aHtml + "</div>";
 
             this.state.container.append(qHtml);
@@ -395,7 +395,7 @@ class App extends Component {
         if (aClicked === 1 && aCorrect === 0) extraClass = 'wrong';
         if (aClicked === 1 && aCorrect === 1) extraClass = 'correct';
 
-        cellHtml = "<div className='answer'" + extraClass + "id='" + aId + "' ><div className='a-content' ><div className='text' >" + aTxt + "</div></div></div>";
+        cellHtml = "<div class='answer'" + extraClass + "id='" + aId + "' ><div class='a-content' ><div class='text' >" + aTxt + "</div></div></div>";
 
         return cellHtml;
     }
@@ -427,10 +427,10 @@ class App extends Component {
     render() {
         return (
             <Fragment>
-                <div className="title-wrapper">
-                    <p className="title">React U.S. State Capital Quiz</p>
+                <div class="title-wrapper">
+                    <p class="title">React U.S. State Capital Quiz</p>
                 </div>
-                <div className="gamewindow" style={{ marginTop: + '0', minHeight: + '500' }}>
+                <div class="gamewindow" style={{ marginTop: + '0', minHeight: + '500' }}>
                     <div id="gamewrapper" style={{ position: 'relative', backgroundColor: '#deded7', width: '100%', minHeight: + '500' }}>
 
                         <div id="HUD">
@@ -438,8 +438,8 @@ class App extends Component {
                             <span id="score"></span>
                             <span id="questionCount"></span>
                         </div>
-                        <div className="q-header"></div>
-                        <div className="q-wrapper" style={{ paddingLeft: + '20' }}>...</div>
+                        <div class="q-header"></div>
+                        <div class="q-wrapper" style={{ paddingLeft: + '20' }}>...</div>
                     </div>
                 </div>
                 <div id="optionsRight" style={{ paddingRight: + '50', clear: 'both' }}>
@@ -455,7 +455,7 @@ class App extends Component {
                     <div id="pnlRestart">
                     </div>
                     <button onClick={() => { this.stopTimer(); }}
-                        className="stopTimer">Stop</button>
+                        class="stopTimer">Stop</button>
                 </div>
             </Fragment>
 
