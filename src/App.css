@@ -22,14 +22,3 @@
 #restart {
     cursor: pointer;
 }
-
-.q-header {
-    font-size: 1.4em;
-    margin-bottom: 40px;
-    margin-top: 30px;
-    margin-left: 40px;
-    margin-right: 20px;
-    width: 80%;
-    text-align: left;
-    clear: both;
-}

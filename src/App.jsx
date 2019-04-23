@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import $ from 'jquery';
-// import './App.css';
+import './App.css';
 
 class App extends Component {
     constructor(props) {
@@ -13,7 +13,6 @@ class App extends Component {
             correctClicks: 0,
             wrongClicks: 0,
             totalClicks: 0,
-            // arrQuestions: [],
             strQuestions: [],
             currentQuestion: 0,
             corrId: 0,
@@ -216,8 +215,10 @@ class App extends Component {
 
         // let qImage = q.image;
 
-        // console.log(q.arrAnswers);
-        // console.log(qText)
+        console.log('218');
+        console.dir(this.state.strQuestions.length);
+        console.dir(this.state.strQuestions);
+
 
         let aHtml = "";
         let qHtml = "";
@@ -278,9 +279,13 @@ class App extends Component {
 
         $(".a-content img").css("height: " + ah * .8 + "px");
 
+        console.log('280 ' + this.state.currentQuestion);
+
         if (this.state.currentQuestion === 0) {
             $("#btnPrevious").hide();
         }
+
+        console.log('286 ' + this.state.currentQuestion);
 
         $(".q-img img").on("load", function () {
             this.adjustAnswerPosition();
@@ -301,6 +306,8 @@ class App extends Component {
             this.nextQuestion();
         })
 
+        console.log('307 ' + this.state.currentQuestion);
+
         $("#btnPrevious").on("click", function () {
             let cQ = this.state.currentQuestion;
             cQ--;
@@ -312,24 +319,39 @@ class App extends Component {
             this.nextQuestion();
         })
 
-        $(".answer").on("click", function () {
+        console.log('320 ' + this.state.currentQuestion);
+        console.log('322' + q.arrAnswers);
+        let data = this.state;
+
+        $(".answer").on("click", data, (e) => {
             var item = $(this);
-            var thisId = item.attr("id");
+            console.log('327');
+            console.dir(item);
+            console.log(e.currentTarget.id);
+            let thisId = e.currentTarget.id;
+            // var thisId = item.attr("id");
+            console.log('328 ' + thisId);
+            console.log(q);
+            console.log('331 ' + q.arrAnswers);
+            console.dir(data);
+            console.log('330 ' + data.currentQuestion);
 
-            q[this.state.currentQuestion].arrAnswers[thisId].clicked = 1;
+            console.log(this.state.strQuestions.length);
 
-            let tC = this.state.totalClicks;
+            this.state.strQuestions[data.currentQuestion].arrAnswers[thisId].clicked = 1;
+
+            let tC = data.totalClicks;
             tC++;
             this.setState({
                 totalClicks: tC,
             })
 
-            if (q[this.state.currentQuestion].answered === 0) {
-                if (this.state.corrId === thisId) {
+            if (q[data.currentQuestion].answered === 0) {
+                if (data.corrId === thisId) {
 
-                    q[this.state.currentQuestion].answered = 1;
+                    q[data.currentQuestion].answered = 1;
 
-                    let cC = this.state.correctClicks;
+                    let cC = data.correctClicks;
                     cC++;
                     this.setState({
                         correctClicks: cC,
@@ -339,17 +361,17 @@ class App extends Component {
                     item.removeClass("activeanswer");
                     $(".answer").off();
 
-                    let cQ = this.state.currentQuestion;
+                    let cQ = data.currentQuestion;
                     cQ++;
                     this.setState({
                         currentQuestion: cQ,
                     });
 
-                    if (q.length > this.state.currentQuestion) {
+                    if (q.length > data.currentQuestion) {
                         $("#btnNext").show();
                     }
 
-                    if (q.length > this.state.currentQuestion) {
+                    if (q.length > data.currentQuestion) {
                         $(".q-wrapper").fadeOut(1000, function () {
 
                             $(".q-wrapper").remove();
@@ -358,7 +380,7 @@ class App extends Component {
                             this.nextQuestion();
                         })
                     } else {
-                        let cQ = this.state.currentQuestion;
+                        let cQ = data.currentQuestion;
                         cQ--;
                         this.setState({
                             currentQuestion: cQ,
@@ -372,7 +394,7 @@ class App extends Component {
                     item.addClass("wrong");
                     item.removeClass("activeanswer");
 
-                    let wC = this.state.wrongClicks;
+                    let wC = data.wrongClicks;
                     wC++;
                     this.setState({
                         wrongClicks: wC,
@@ -384,6 +406,8 @@ class App extends Component {
                 this.updateScore();
             }
         })
+
+        console.log('399 ' + this.state.currentQuestion);
     }
 
     constructAnswer(aTxt, aId, aClicked, aCorrect) {
