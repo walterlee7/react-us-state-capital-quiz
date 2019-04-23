@@ -49,7 +49,9 @@ function setupGame() {
             arrQuestions[i].arrAnswers[j].id = j;
         }
     }
-    setTimeout(function () { startGame(); }, 200)
+    setTimeout() {
+        startGame();
+    }, 200)
 }
 
 var by = function (path, reverse, primer, then) {
@@ -139,7 +141,7 @@ function nextQuestion() {
 function constructQuestionPanel(q) {
 
     var qText = q.qText;
-    var qImage = q.image;
+    // var qImage = q.image;
 
     console.log(q.arrAnswers);
     console.log(qText)
