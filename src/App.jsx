@@ -338,15 +338,15 @@ class App extends Component {
 
             console.log(this.state.strQuestions.length);
 
-            this.state.strQuestions[data.currentQuestion].arrAnswers[thisId].clicked = 1;
+            // this.state.strQuestions[data.currentQuestion].arrAnswers[thisId].clicked = 1;
 
             let tC = data.totalClicks;
             tC++;
             this.setState({
                 totalClicks: tC,
-            })
+            });
 
-            if (q[data.currentQuestion].answered === 0) {
+            if (this.state.strQuestions[data.currentQuestion].answered === 0) {
                 if (data.corrId === thisId) {
 
                     q[data.currentQuestion].answered = 1;
@@ -451,10 +451,10 @@ class App extends Component {
     render() {
         return (
             <Fragment>
-                <div class="title-wrapper">
-                    <p class="title">React U.S. State Capital Quiz</p>
+                <div className="title-wrapper">
+                    <p className="title">React U.S. State Capital Quiz</p>
                 </div>
-                <div class="gamewindow" style={{ marginTop: + '0', minHeight: + '500' }}>
+                <div className="gamewindow" style={{ marginTop: + '0', minHeight: + '500' }}>
                     <div id="gamewrapper" style={{ position: 'relative', backgroundColor: '#deded7', width: '100%', minHeight: + '500' }}>
 
                         <div id="HUD">
@@ -462,8 +462,8 @@ class App extends Component {
                             <span id="score"></span>
                             <span id="questionCount"></span>
                         </div>
-                        <div class="q-header"></div>
-                        <div class="q-wrapper" style={{ paddingLeft: + '20' }}>...</div>
+                        <div className="q-header"></div>
+                        <div className="q-wrapper" style={{ paddingLeft: + '20' }}>...</div>
                     </div>
                 </div>
                 <div id="optionsRight" style={{ paddingRight: + '50', clear: 'both' }}>
@@ -479,7 +479,7 @@ class App extends Component {
                     <div id="pnlRestart">
                     </div>
                     <button onClick={() => { this.stopTimer(); }}
-                        class="stopTimer">Stop</button>
+                        className="stopTimer">Stop</button>
                 </div>
             </Fragment>
 
