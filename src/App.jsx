@@ -79,6 +79,10 @@ class App extends Component {
     }
 
     updateScore() {
+
+        console.log('cC ' + this.state.correctClicks);
+        console.log('tC ' + this.state.totalClicks);
+
         this.setState({
             score: Math.round(this.state.correctClicks / this.state.totalClicks * 100)
         })
@@ -200,13 +204,13 @@ class App extends Component {
         // arrQuestions = shuffle(arrQuestions);
         // console.log('Showing question ' + currentQuestion)
 
-        console.log('data');
+        // console.log('data');
 
-        console.dir(data);
+        // console.dir(data);
 
         // let arrQuestions = data;
 
-        console.log(this.state.strQuestions[this.state.currentQuestion]);
+        // console.log(this.state.strQuestions[this.state.currentQuestion]);
 
         let q = this.state.strQuestions[this.state.currentQuestion];
 
@@ -246,16 +250,17 @@ class App extends Component {
             this.state.container.append(qHtml);
         }
 
-        if (q.questionLayout === 2) {
-            bHtml = "<div id='divTextAfter'></div>";
-            aHtml = "<div class='a-wrapper qi2' style={{min-height: '750px'}}>" + aHtml + bHtml + "<div class='q-img q-img2'><img id='theImg' src='' /></div><div id='buttonDiv'><div id='btnPrevious' class='btnBrowse' style={{float: 'left'}}><<</div><div id='btnNext' class='btnBrowse' style={{float: 'right'}}>>></div></div> </div></div>";
-            qHtml = "<div class='q-header' >" + qText + "</div><div class='q-wrapper'>" + qHtml + aHtml + "</div>";
+        // if (q.questionLayout === 2) {
+        //     bHtml = "<div id='divTextAfter'></div>";
+        //     aHtml = "<div class='a-wrapper qi2' style={{min-height: '750px'}}>" + aHtml + bHtml + "<div class='q-img q-img2'><img id='theImg' src='' /></div><div id='buttonDiv'><div id='btnPrevious' class='btnBrowse' style={{float: 'left'}}><<</div><div id='btnNext' class='btnBrowse' style={{float: 'right'}}>>></div></div> </div></div>";
+        //     qHtml = "<div class='q-header' >" + qText + "</div><div class='q-wrapper'>" + qHtml + aHtml + "</div>";
 
-            this.state.container.append(qHtml);
-        }
+        //     this.state.container.append(qHtml);
+        // }
 
         $('.q-img').hide();
         $('#theImg').hide();
+
         $("#theImg").bind('load', function () {
             $('.q-img').fadeIn(2000)
             $("#theImg").fadeIn(2000)
@@ -291,7 +296,7 @@ class App extends Component {
                 thisId: parse,
             });
 
-            console.log('thisID ' + this.state.thisId);
+            // console.log('thisID ' + this.state.thisId);
 
             this.setState({
                 clicked: this.state.strQuestions[data.currentQuestion].arrAnswers[this.state.thisId].clicked,
@@ -311,19 +316,19 @@ class App extends Component {
                 answered: this.state.strQuestions[data.currentQuestion].answered,
             });
 
-            console.log('answered ' + this.state.answered);
+            // console.log('answered ' + this.state.answered);
 
-            console.log('data ' + data.corrId);
+            // console.log('data ' + data.corrId);
 
             if (this.state.answered === 0) {
 
-                console.log('corrId ' + data.corrId);
+                // console.log('corrId ' + data.corrId);
 
-                this.typeCheck(data.corrId);
+                // this.typeCheck(data.corrId);
 
-                this.typeCheck(this.state.thisId);
+                // this.typeCheck(this.state.thisId);
 
-                console.log('thisId ' + this.state.thisId);
+                // console.log('thisId ' + this.state.thisId);
 
                 if (data.corrId === this.state.thisId) {
 
@@ -356,14 +361,16 @@ class App extends Component {
                         $("#btnNext").show();
                     }
 
-                    if (q.length > data.currentQuestion) {
-                        $(".q-wrapper").fadeOut(1000, function () {
+                    if (this.state.strQuestions.length > data.currentQuestion) {
+
+                        $(".q-wrapper").fadeOut(1000, (e) => {
 
                             $(".q-wrapper").remove();
                             $(".q-header").remove();
 
                             this.nextQuestion();
                         })
+
                     } else {
                         let cQ = data.currentQuestion;
                         cQ--;
@@ -414,7 +421,7 @@ class App extends Component {
             this.nextQuestion(data);
         })
 
-        console.log('296 ' + this.state.currentQuestion);
+        // console.log('296 ' + this.state.currentQuestion);
 
         $("#btnPrevious").on("click", data, (e) => {
 
@@ -481,7 +488,7 @@ class App extends Component {
 
                     <span>&nbsp;&nbsp;
             <button
-                            // onClick="startGame()"
+                            onClick={() => { this.setupGame(); }}
                             id="restart" style={{ cursor: 'pointer' }}>Restart</button>
                     </span>
                     <div id="pnlRestart">

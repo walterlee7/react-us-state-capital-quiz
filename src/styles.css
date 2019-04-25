@@ -177,8 +177,8 @@ body{
     padding: 10px;
     box-sizing: border-box;
     margin: 0px 15px 15px 0px;
-    text-align: center;
-    align-content: center;
+    /* text-align: center;
+    align-content: center; */
     opacity: 0.7;
     background-color: #eeeeee;
     float: left;
@@ -219,6 +219,8 @@ body{
 }
 
 .qi .answer {
+
+    align-content: center;
     margin: 0px 15px 15px  0px ;
     width: 80%;
 }
