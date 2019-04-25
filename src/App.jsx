@@ -32,7 +32,6 @@ class App extends Component {
         this.nextQuestion = this.nextQuestion.bind(this);
         this.constructQuestionPanel = this.constructQuestionPanel.bind(this);
         this.constructAnswer = this.constructAnswer.bind(this);
-        this.adjustAnswerPosition = this.adjustAnswerPosition.bind(this);
     }
 
 
@@ -201,29 +200,25 @@ class App extends Component {
         // arrQuestions = shuffle(arrQuestions);
         // console.log('Showing question ' + currentQuestion)
 
-        let arrQuestions = data;
+        console.log('data');
 
-        let q = arrQuestions[this.state.currentQuestion];
+        console.dir(data);
+
+        // let arrQuestions = data;
+
+        console.log(this.state.strQuestions[this.state.currentQuestion]);
+
+        let q = this.state.strQuestions[this.state.currentQuestion];
+
         this.constructQuestionPanel(q)
-        $("#questionCount").html(this.state.currentQuestion + 1 + "/" + arrQuestions.length + " ");
+
+        $("#questionCount").html(this.state.currentQuestion + 1 + "/" + this.state.strQuestions.length + " ");
     }
 
 
     constructQuestionPanel(q) {
 
-        // console.log('210');
-        // console.dir(q);
-
         let qText = q.qText;
-
-        // console.log(qText);
-
-        // let qImage = q.image;
-
-        // console.log('218');
-        // console.dir(this.state.strQuestions.length);
-        // console.dir(this.state.strQuestions);
-
 
         let aHtml = "";
         let qHtml = "";
@@ -259,14 +254,12 @@ class App extends Component {
             this.state.container.append(qHtml);
         }
 
-
         $('.q-img').hide();
         $('#theImg').hide();
         $("#theImg").bind('load', function () {
             $('.q-img').fadeIn(2000)
             $("#theImg").fadeIn(2000)
         });
-
 
         if (q.answered === 0) {
             $(".answer").addClass("activeanswer");
@@ -284,59 +277,13 @@ class App extends Component {
 
         $(".a-content img").css("height: " + ah * .8 + "px");
 
-        // console.log('280 ' + this.state.currentQuestion);
-
         if (this.state.currentQuestion === 0) {
             $("#btnPrevious").hide();
         }
 
-        // console.log('286 ' + this.state.currentQuestion);
-
-        $(".q-img img").on("load", function () {
-            this.adjustAnswerPosition();
-        })
-
-        $(window).resize(function () {
-            this.adjustAnswerPosition();
-        })
-
-        $("#btnNext").on("click", function () {
-            let cQ = this.state.currentQuestion;
-            cQ++;
-            this.setState({
-                currentQuestion: cQ,
-            });
-            $(".q-wrapper").remove();
-            $(".q-header").remove();
-            this.nextQuestion();
-        })
-
-        // console.log('307 ' + this.state.currentQuestion);
-
-        $("#btnPrevious").on("click", function () {
-            let cQ = this.state.currentQuestion;
-            cQ--;
-            this.setState({
-                currentQuestion: cQ,
-            });
-            $(".q-wrapper").remove();
-            $(".q-header").remove();
-            this.nextQuestion();
-        })
-
-        // console.log('320 ' + this.state.currentQuestion);
-        // console.log('322' + q.arrAnswers);
         let data = this.state;
 
         $(".answer").on("click", data, (e) => {
-
-            var item = $(this);
-
-            // console.log('327');
-            // console.dir(item);
-            // console.log(e.currentTarget.id);
-
-            // let thisId = e.currentTarget.id;
 
             let parse = parseInt(e.currentTarget.id);
 
@@ -344,19 +291,7 @@ class App extends Component {
                 thisId: parse,
             });
 
-            // var thisId = item.attr("id");
-
             console.log('thisID ' + this.state.thisId);
-            // console.log(q);
-            // console.log('331 ' + q.arrAnswers);
-            // console.dir(data);
-            // console.log('330 ' + data.currentQuestion);
-
-            // console.log(this.state.strQuestions.length);
-
-            // console.log(this.state.strQuestions[data.currentQuestion].arrAnswers[thisId].clicked);
-
-            // this.state.strQuestions[data.currentQuestion].arrAnswers[thisId].clicked = 1;
 
             this.setState({
                 clicked: this.state.strQuestions[data.currentQuestion].arrAnswers[this.state.thisId].clicked,
@@ -372,8 +307,6 @@ class App extends Component {
                 totalClicks: tC,
             });
 
-            // console.log(this.state.strQuestions[data.currentQuestion].answered);
-
             this.setState({
                 answered: this.state.strQuestions[data.currentQuestion].answered,
             });
@@ -385,14 +318,6 @@ class App extends Component {
             if (this.state.answered === 0) {
 
                 console.log('corrId ' + data.corrId);
-
-                // if (typeof data.corrId === 'string') {
-                //     console.log('string');
-                // } else if (typeof data.corrId === 'number') {
-                //     console.log('integer');
-                // } else {
-                //     console.log('what are you');
-                // }
 
                 this.typeCheck(data.corrId);
 
@@ -419,8 +344,6 @@ class App extends Component {
                     $("#" + this.state.thisId).addClass("correct");
                     $("#" + this.state.thisId).removeClass("activeanswer");
 
-                    // item.addClass("correct");
-                    // item.removeClass("activeanswer");
                     $(".answer").off();
 
                     let cQ = data.currentQuestion;
@@ -449,7 +372,7 @@ class App extends Component {
                         });
 
                         $(".activeanswer").removeClass("activeanswer");
-                        this.stopTimer();
+                        // this.stopTimer();
                         this.updateScore();
                     }
                 } else {
@@ -459,22 +382,53 @@ class App extends Component {
                     $("#" + this.state.thisId).addClass("wrong");
                     $("#" + this.state.thisId).removeClass("activeanswer");
 
-                    item.addClass("wrong");
-                    item.removeClass("activeanswer");
-
                     let wC = data.wrongClicks;
                     wC++;
                     this.setState({
                         wrongClicks: wC,
                     });
 
-                    item.animate({ opacity: 0.75 }, 1000);
-                    item.off();
+                    $("#" + this.state.thisId).animate({ opacity: 0.75 }, 1000);
+                    $("#" + this.state.thisId).off();
                 }
                 this.updateScore();
             }
         })
 
+        $("#btnNext").on("click", data, () => {
+            console.log('hello');
+            console.log(data.currentQuestion);
+
+            let cQ = data.currentQuestion;
+
+            cQ++;
+
+            this.setState({
+                currentQuestion: cQ,
+            });
+
+            console.log('297 ' + this.state.currentQuestion);
+
+            $(".q-wrapper").remove();
+            $(".q-header").remove();
+            this.nextQuestion(data);
+        })
+
+        console.log('296 ' + this.state.currentQuestion);
+
+        $("#btnPrevious").on("click", data, (e) => {
+
+            // console.log('300 ' + this.state.currentQuestion);
+
+            let cQ = data.currentQuestion;
+            cQ--;
+            this.setState({
+                currentQuestion: cQ,
+            });
+            $(".q-wrapper").remove();
+            $(".q-header").remove();
+            this.nextQuestion();
+        })
         // console.log('399 ' + this.state.currentQuestion);
     }
 
@@ -490,30 +444,6 @@ class App extends Component {
         cellHtml = "<div class='answer'" + extraClass + "id='" + aId + "' ><div class='a-content' ><div class='text' >" + aTxt + "</div></div></div>";
 
         return cellHtml;
-    }
-
-    adjustAnswerPosition() {
-        if ($(".q-img").length > 0) {
-            var qh = $(".q-container").height();
-            var am = (qh / 2) - ($(".a-wrapper").height() / 2);
-
-            if ($(".a-wrapper.qi .answer.image").length > 0) {
-                console.log(am);
-
-                if (qh / 6 < 70) {
-                    am = 0;
-                    qh = 70 * 6;
-                } else {
-                    am = qh / 6;
-                }
-
-                $(".a-wrapper").css("margin-top", am + "px");
-                $(".qi .text").css("margin-top", (qh / 6 / 2) - ($(".qi .text").height() / 2) - 5 + "px")
-                $(".qi .answer").css("height", qh / 6 + "px")
-                $(".qi .img-wrapper img").css("height", qh / 6 - 20 + "px")
-
-            }
-        }
     }
 
     typeCheck(e) {
