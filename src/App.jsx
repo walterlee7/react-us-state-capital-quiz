@@ -306,7 +306,7 @@ class App extends Component {
                 clicked: 1,
             });
 
-            let tC = data.totalClicks;
+            let tC = this.state.totalClicks;
             tC++;
             this.setState({
                 totalClicks: tC,
@@ -338,7 +338,7 @@ class App extends Component {
                         answered: 1,
                     })
 
-                    console.log('answered.2 ' + this.state.answered);
+                    console.log('next ' + this.state.answered);
 
                     let cC = data.correctClicks;
                     cC++;
@@ -494,7 +494,7 @@ class App extends Component {
                     <div id="pnlRestart">
                     </div>
                     <button onClick={() => { this.stopTimer(); }}
-                        className="stopTimer">Stop</button>
+                        className="stopTimer">Pause</button>
                 </div>
             </Fragment>
 
