@@ -416,8 +416,11 @@ class App extends Component {
                         correctClicks: cC,
                     });
 
-                    item.addClass("correct");
-                    item.removeClass("activeanswer");
+                    $("#" + this.state.thisId).addClass("correct");
+                    $("#" + this.state.thisId).removeClass("activeanswer");
+
+                    // item.addClass("correct");
+                    // item.removeClass("activeanswer");
                     $(".answer").off();
 
                     let cQ = data.currentQuestion;
@@ -452,6 +455,9 @@ class App extends Component {
                 } else {
 
                     console.log('wrong');
+
+                    $("#" + this.state.thisId).addClass("wrong");
+                    $("#" + this.state.thisId).removeClass("activeanswer");
 
                     item.addClass("wrong");
                     item.removeClass("activeanswer");
