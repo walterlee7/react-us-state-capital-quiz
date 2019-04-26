@@ -201,22 +201,25 @@ class App extends Component {
 
 
     nextQuestion(data) {
-        // arrQuestions = shuffle(arrQuestions);
-        // console.log('Showing question ' + currentQuestion)
 
-        // console.log('data');
+        if (this.state.currentQuestion === 50) {
+            this.stopTimer();
+            console.log('end game');
 
-        // console.dir(data);
+            let eText = 'End of Quiz - Thanks For Playing!'
 
-        // let arrQuestions = data;
+            let end = "<div class='q-header'></div><div class='q-wrapper' style='padding-left:20px'>" + eText + "</div>";
 
-        // console.log(this.state.strQuestions[this.state.currentQuestion]);
+            this.state.container.append(end);
+        } else {
+            let q = this.state.strQuestions[this.state.currentQuestion];
 
-        let q = this.state.strQuestions[this.state.currentQuestion];
+            this.constructQuestionPanel(q)
 
-        this.constructQuestionPanel(q)
+            $("#questionCount").html(this.state.currentQuestion + 1 + "/" + this.state.strQuestions.length + " ");
+        }
 
-        $("#questionCount").html(this.state.currentQuestion + 1 + "/" + this.state.strQuestions.length + " ");
+
     }
 
 
