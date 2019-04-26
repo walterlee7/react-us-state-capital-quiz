@@ -80,8 +80,8 @@ class App extends Component {
 
     updateScore() {
 
-        console.log('cC ' + this.state.correctClicks);
-        console.log('tC ' + this.state.totalClicks);
+        // console.log('cC ' + this.state.correctClicks);
+        // console.log('tC ' + this.state.totalClicks);
 
         this.setState({
             score: Math.round(this.state.correctClicks / this.state.totalClicks * 100)
@@ -306,23 +306,15 @@ class App extends Component {
 
             if (this.state.answered === 0) {
 
-                // console.log('corrId ' + data.corrId);
-
-                // this.typeCheck(data.corrId);
-
-                // this.typeCheck(this.state.thisId);
-
-                // console.log('thisId ' + this.state.thisId);
-
                 if (data.corrId === this.state.thisId) {
 
-                    console.log('correct');
+                    // console.log('correct');
 
                     this.setState({
                         answered: 1,
                     })
 
-                    console.log('next ' + this.state.answered);
+                    // console.log('next ' + this.state.answered);
 
                     let cC = data.correctClicks;
                     cC++;
@@ -347,7 +339,7 @@ class App extends Component {
 
                     if (this.state.strQuestions.length > data.currentQuestion) {
 
-                        $(".q-wrapper").fadeOut(1500, (e) => {
+                        $(".q-wrapper").fadeOut(1200, (e) => {
 
                             $(".q-wrapper").remove();
                             $(".q-header").remove();
@@ -368,7 +360,7 @@ class App extends Component {
                     }
                 } else {
 
-                    console.log('wrong');
+                    // console.log('wrong');
 
                     $("#" + this.state.thisId).addClass("wrong");
                     $("#" + this.state.thisId).removeClass("activeanswer");
