@@ -241,30 +241,14 @@ class App extends Component {
         }
 
         if (q.questionLayout === 1) {
-            bHtml = "<div id='divTextAfter'></div><div id='btnPrevious' class='btnBrowse' style={{float:'left', margin-right: '2em'}}><<</div><div id='btnNext' class='btnBrowse' style={{float: 'left', margin-right: '3.3em'}}>>></div>";
+            // bHtml = "<div id='divTextAfter'></div><div id='btnPrevious' class='btnBrowse' style='float:left; margin-right:2em'><<</div><div id='btnNext' class='btnBrowse' style='float: left; margin-right:3.3em'>>></div>";
 
             aHtml = '<div class="a-wrapper qi">' + aHtml + bHtml + '</div>'
 
-            qHtml = "<div class='q-header' > " + qText + "</div><div class='q-wrapper' style={{padding-left: '20px'}}>" + qHtml + aHtml + "</div>";
+            qHtml = "<div class='q-header' > " + qText + "</div><div class='q-wrapper' style='padding-left:20px'>" + qHtml + aHtml + "</div>";
 
             this.state.container.append(qHtml);
         }
-
-        // if (q.questionLayout === 2) {
-        //     bHtml = "<div id='divTextAfter'></div>";
-        //     aHtml = "<div class='a-wrapper qi2' style={{min-height: '750px'}}>" + aHtml + bHtml + "<div class='q-img q-img2'><img id='theImg' src='' /></div><div id='buttonDiv'><div id='btnPrevious' class='btnBrowse' style={{float: 'left'}}><<</div><div id='btnNext' class='btnBrowse' style={{float: 'right'}}>>></div></div> </div></div>";
-        //     qHtml = "<div class='q-header' >" + qText + "</div><div class='q-wrapper'>" + qHtml + aHtml + "</div>";
-
-        //     this.state.container.append(qHtml);
-        // }
-
-        $('.q-img').hide();
-        $('#theImg').hide();
-
-        $("#theImg").bind('load', function () {
-            $('.q-img').fadeIn(2000)
-            $("#theImg").fadeIn(2000)
-        });
 
         if (q.answered === 0) {
             $(".answer").addClass("activeanswer");
@@ -363,7 +347,7 @@ class App extends Component {
 
                     if (this.state.strQuestions.length > data.currentQuestion) {
 
-                        $(".q-wrapper").fadeOut(1000, (e) => {
+                        $(".q-wrapper").fadeOut(1500, (e) => {
 
                             $(".q-wrapper").remove();
                             $(".q-header").remove();
@@ -402,41 +386,38 @@ class App extends Component {
             }
         })
 
-        $("#btnNext").on("click", data, () => {
-            console.log('hello');
-            console.log(data.currentQuestion);
+        // $("#btnNext").on("click", data, () => {
+        //     console.log('next');
+        //     console.log(data.currentQuestion);
 
-            let cQ = data.currentQuestion;
+        //     let cQ = data.currentQuestion;
+        //     cQ++;
+        //     this.setState({
+        //         currentQuestion: cQ,
+        //     });
 
-            cQ++;
+        //     console.log('next q ' + this.state.currentQuestion);
 
-            this.setState({
-                currentQuestion: cQ,
-            });
+        //     $(".q-wrapper").remove();
+        //     $(".q-header").remove();
+        //     this.nextQuestion(data);
+        // })
 
-            console.log('297 ' + this.state.currentQuestion);
+        // $("#btnPrevious").on("click", data, (e) => {
+        //     console.log('previous');
+        //     let cQ = data.currentQuestion;
+        //     cQ--;
+        //     this.setState({
+        //         currentQuestion: cQ,
+        //     });
 
-            $(".q-wrapper").remove();
-            $(".q-header").remove();
-            this.nextQuestion(data);
-        })
+        //     console.log('previous q ' + this.state.currentQuestion);
 
-        // console.log('296 ' + this.state.currentQuestion);
+        //     $(".q-wrapper").remove();
+        //     $(".q-header").remove();
+        //     this.nextQuestion(data);
+        // })
 
-        $("#btnPrevious").on("click", data, (e) => {
-
-            // console.log('300 ' + this.state.currentQuestion);
-
-            let cQ = data.currentQuestion;
-            cQ--;
-            this.setState({
-                currentQuestion: cQ,
-            });
-            $(".q-wrapper").remove();
-            $(".q-header").remove();
-            this.nextQuestion();
-        })
-        // console.log('399 ' + this.state.currentQuestion);
     }
 
     constructAnswer(aTxt, aId, aClicked, aCorrect) {
@@ -448,7 +429,7 @@ class App extends Component {
         if (aClicked === 1 && aCorrect === 0) extraClass = 'wrong';
         if (aClicked === 1 && aCorrect === 1) extraClass = 'correct';
 
-        cellHtml = "<div class='answer'" + extraClass + "id='" + aId + "' ><div class='a-content' ><div class='text' >" + aTxt + "</div></div></div>";
+        cellHtml = "<div class='answer'" + extraClass + "id='" + aId + "' ><div class='a-content' ><div class='text'>" + aTxt + "</div></div></div>";
 
         return cellHtml;
     }
