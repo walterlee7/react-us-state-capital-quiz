@@ -8,6 +8,8 @@ class App extends Component {
 
         this.state = {
             gameTime: 0,
+            newTime: 0,
+            start: 0,
             end: 0,
             score: 0,
             correctClicks: 0,
@@ -20,6 +22,7 @@ class App extends Component {
             container: "",
             clicked: 100,
             answered: 100,
+            timeToggle: true,
         };
 
         this.startGame = this.startGame.bind(this);
@@ -27,9 +30,12 @@ class App extends Component {
         this.by = this.by.bind(this);
         this.startTimer = this.startTimer.bind(this);
         this.stopTimer = this.stopTimer.bind(this);
+        this.clearTimer = this.clearTimer.bind(this);
         this.clearScore = this.clearScore.bind(this);
         this.updateScore = this.updateScore.bind(this);
+        this.updateTimer = this.updateTimer.bind(this);
         this.nextQuestion = this.nextQuestion.bind(this);
+        this.lastQuestion = this.lastQuestion.bind(this);
         this.constructQuestionPanel = this.constructQuestionPanel.bind(this);
         this.constructAnswer = this.constructAnswer.bind(this);
     }
@@ -41,13 +47,19 @@ class App extends Component {
     }
 
     startTimer() {
-        let start = new Date();
+
+        this.setState({
+            start: new Date()
+        })
+
+        let s = this.state.start;
+
         $('#timer').html('0:00');
-        $('#score').html('Score: 0%');
+        $('#score').html('Current Score: 0%');
 
         this.setState({
             gameTime: setInterval(function () {
-                let gameDuration = new Date() - start;
+                let gameDuration = new Date() - s;
                 let totalSeconds = Math.round(gameDuration / 1000);
                 var minutes = Math.floor(totalSeconds / 60);
                 var seconds = totalSeconds % 60;
@@ -62,6 +74,57 @@ class App extends Component {
     }
 
     stopTimer() {
+
+        this.setState(state => ({
+            timeToggle: !state.timeToggle
+        }))
+
+        if (this.state.timeToggle === true) {
+            $('.q-header').hide();
+            $('.q-container').hide();
+            this.setState({
+                end: new Date()
+            })
+
+            let gameDuration = new Date() - this.state.end;
+            let totalSeconds = Math.round(gameDuration / 1000);
+            var minutes = Math.floor(totalSeconds / 60);
+            var seconds = totalSeconds % 60;
+            var pad = "00";
+            pad = pad.toString();
+            seconds = seconds.toString();
+            seconds = pad.substring(0, pad.length - seconds.length) + seconds;
+            let newTime = minutes + ":" + seconds;
+            $('#timer').html(newTime);
+
+            this.setState({
+                gameTime: newTime
+            })
+
+            clearTimeout(this.state.gameTime);
+        } else {
+            $('.q-header').show();
+            $('.q-container').show();
+            let e = this.state.end;
+            let s = this.state.start;
+            this.setState({
+                gameTime: setInterval(function () {
+                    let gameDuration = e - s;
+                    let totalSeconds = Math.round(gameDuration / 1000);
+                    var minutes = Math.floor(totalSeconds / 60);
+                    var seconds = totalSeconds % 60;
+                    var pad = "00";
+                    pad = pad.toString();
+                    seconds = seconds.toString();
+                    seconds = pad.substring(0, pad.length - seconds.length) + seconds;
+                    let newTime = minutes + ":" + seconds;
+                    $('#timer').html(newTime);
+                }, 1000)
+            })
+        }
+    }
+
+    clearTimer() {
         this.setState({
             end: new Date()
         })
@@ -94,13 +157,50 @@ class App extends Component {
         }
     }
 
+    updateTimer() {
+
+        this.setState({
+            end: new Date()
+        })
+
+        let e = this.state.end;
+
+        // console.log('e ' + e);
+
+        let gameDuration = e - this.state.start;
+
+        // console.log('gameDuration ' + gameDuration);
+
+        let totalSeconds = Math.round(gameDuration / 1000);
+        var minutes = Math.floor(totalSeconds / 60);
+        var seconds = totalSeconds % 60;
+        var pad = "00";
+        pad = pad.toString();
+        seconds = seconds.toString();
+        seconds = pad.substring(0, pad.length - seconds.length) + seconds;
+        let nT = minutes + ":" + seconds;
+
+
+
+        this.setState({
+            newTime: nT
+        })
+
+        // console.log('newtime ' + nT);
+    }
+
     async setupGame() {
-        this.stopTimer();
+        this.clearTimer();
         this.clearScore();
+        $("#HUD").show();
+        $("#optionsRight").show();
         $("#gameWrapper").html("");
         $(".q-container").remove();
         $(".a-wrapper").remove();
         $(".q-wrapper").remove();
+        $(".final").remove();
+        $(".fScore").remove();
+        $(".fTime").remove();
 
         await this.setState({
             currentQuestion: 1,
@@ -172,7 +272,7 @@ class App extends Component {
         $(".a-wrapper").remove();
         $(".q-wrapper").remove();
         $(".q-header").remove();
-        this.stopTimer();
+        this.clearTimer();
         this.startTimer();
 
         let i, j;
@@ -200,17 +300,10 @@ class App extends Component {
     }
 
 
-    nextQuestion(data) {
+    nextQuestion() {
 
         if (this.state.currentQuestion === 50) {
-            this.stopTimer();
-            console.log('end game');
-
-            let eText = 'End of Quiz - Thanks For Playing!'
-
-            let end = "<div class='q-header'></div><div class='q-wrapper' style='padding-left:20px'>" + eText + "</div>";
-
-            this.state.container.append(end);
+            this.lastQuestion();
         } else {
             let q = this.state.strQuestions[this.state.currentQuestion];
 
@@ -218,10 +311,7 @@ class App extends Component {
 
             $("#questionCount").html(this.state.currentQuestion + 1 + "/" + this.state.strQuestions.length + " ");
         }
-
-
     }
-
 
     constructQuestionPanel(q) {
 
@@ -348,6 +438,7 @@ class App extends Component {
                             $(".q-header").remove();
 
                             this.nextQuestion();
+
                         })
 
                     } else {
@@ -358,7 +449,7 @@ class App extends Component {
                         });
 
                         $(".activeanswer").removeClass("activeanswer");
-                        // this.stopTimer();
+                        this.updateTimer();
                         this.updateScore();
                     }
                 } else {
@@ -377,6 +468,7 @@ class App extends Component {
                     $("#" + this.state.thisId).animate({ opacity: 0.75 }, 1000);
                     $("#" + this.state.thisId).off();
                 }
+                this.updateTimer();
                 this.updateScore();
             }
         })
@@ -439,6 +531,96 @@ class App extends Component {
         };
     }
 
+    lastQuestion() {
+        // this.setState({
+        //     currentQuestion: 50,
+        // })
+
+        if (this.state.currentQuestion === 50) {
+            // this.clearTimer();
+            console.log('end game');
+            $('#HUD').hide();
+            $('.q-header').hide();
+            $('.q-container').hide();
+            $('#optionsRight').hide();
+
+            // this.setState({
+            //     end: new Date()
+            // })
+
+            // let e = this.state.end;
+
+            // console.log('e ' + e);
+
+            // let gameDuration = new Date() - e;
+
+            // console.log('gameDuration ' + gameDuration);
+
+            // let totalSeconds = Math.round(gameDuration / 1000);
+            // var minutes = Math.floor(totalSeconds / 60);
+            // var seconds = totalSeconds % 60;
+            // var pad = "00";
+            // pad = pad.toString();
+            // seconds = seconds.toString();
+            // seconds = pad.substring(0, pad.length - seconds.length) + seconds;
+            // let nT = minutes + ":" + seconds;
+
+            // console.log('newtime ' + nT);
+
+            // this.setState({
+            //     newTime: nT
+            // })
+
+            clearTimeout(this.state.gameTime);
+
+            let eText = 'End of Quiz!'
+
+            let end = "<div class='q-wrapper' style='font-size:18px'></div><div class='final'>" + eText + "</div>";
+
+            let fScore = this.state.score;
+
+            let fS = "<div class='q-wrapper' style='font-size:18px'></div><div class='fScore'>Final Score: " + fScore + "%</div>";
+
+            let fT = "<div class='q-wrapper' style='font-size:18px'></div><div class='fTime'>Time: " + this.state.newTime + "</div>";
+
+            this.state.container.append(end);
+            this.state.container.append(fS);
+            this.state.container.append(fT);
+
+        }
+        // else {
+        //     this.setState({
+        //         end: new Date()
+        //     })
+
+        //     let e = this.state.end;
+
+        //     console.log('e1 ' + e);
+
+        //     let gameDuration = new Date() - e;
+
+        //     console.log('gameDuration1 ' + gameDuration);
+
+        //     let totalSeconds = Math.round(gameDuration / 1000);
+        //     minutes = Math.floor(totalSeconds / 60);
+        //     seconds = totalSeconds % 60;
+        //     pad = "00";
+        //     pad = pad.toString();
+        //     seconds = seconds.toString();
+        //     seconds = pad.substring(0, pad.length - seconds.length) + seconds;
+        //     let nT = minutes + ":" + seconds;
+
+        //     console.log('newtime1 ' + nT);
+
+        //     await this.setState({
+        //         newTime: nT
+        //     })
+
+        //     console.log('newtime1.1 ' + nT);
+
+        // }
+    }
+
     render() {
         return (
             <Fragment>
@@ -455,23 +637,22 @@ class App extends Component {
                         </div>
                         <div className="q-header"></div>
                         <div className="q-wrapper" style={{ paddingLeft: + '20' }}>...</div>
-                    </div>
-                </div>
-                <div id="optionsRight" style={{ paddingRight: + '50', clear: 'both' }}>
-                    <span>
-                        {/* <input id="cbSoundOn" type="checkbox" name="cbSoundOn" checked="checked" /><label for="cbSoundOn">Sound On</label> */}
-                    </span>
 
+
+                    </div> <button onClick={() => { this.setupGame(); }} id="restart" style={{ cursor: 'pointer' }}>Restart</button>
+                </div>
+
+                {/* <div id="optionsRight" style={{ paddingRight: + '50', clear: 'both' }}>
                     <span>&nbsp;&nbsp;
-            <button
-                            onClick={() => { this.setupGame(); }}
-                            id="restart" style={{ cursor: 'pointer' }}>Restart</button>
+                    <button onClick={() => { this.setupGame(); }} id="restart" style={{ cursor: 'pointer' }}>Restart</button>
                     </span>
                     <div id="pnlRestart">
                     </div>
                     <button onClick={() => { this.stopTimer(); }}
                         className="stopTimer">Pause</button>
-                </div>
+                    <button onClick={() => { this.lastQuestion(); }}
+                        className="stopTimer">Last</button>
+                </div> */}
             </Fragment>
 
         );
