@@ -163,11 +163,7 @@ class App extends Component {
             end: new Date()
         })
 
-        let e = this.state.end;
-
-        // console.log('e ' + e);
-
-        let gameDuration = e - this.state.start;
+        let gameDuration = this.state.end - this.state.start;
 
         // console.log('gameDuration ' + gameDuration);
 
@@ -179,8 +175,6 @@ class App extends Component {
         seconds = seconds.toString();
         seconds = pad.substring(0, pad.length - seconds.length) + seconds;
         let nT = minutes + ":" + seconds;
-
-
 
         this.setState({
             newTime: nT
@@ -334,8 +328,6 @@ class App extends Component {
         }
 
         if (q.questionLayout === 1) {
-            // bHtml = "<div id='divTextAfter'></div><div id='btnPrevious' class='btnBrowse' style='float:left; margin-right:2em'><<</div><div id='btnNext' class='btnBrowse' style='float: left; margin-right:3.3em'>>></div>";
-
             aHtml = '<div class="a-wrapper qi">' + aHtml + bHtml + '</div>'
 
             qHtml = "<div class='q-header' > " + qText + "</div><div class='q-wrapper' style='padding-left:20px'>" + qHtml + aHtml + "</div>";
@@ -472,39 +464,6 @@ class App extends Component {
                 this.updateScore();
             }
         })
-
-        // $("#btnNext").on("click", data, () => {
-        //     console.log('next');
-        //     console.log(data.currentQuestion);
-
-        //     let cQ = data.currentQuestion;
-        //     cQ++;
-        //     this.setState({
-        //         currentQuestion: cQ,
-        //     });
-
-        //     console.log('next q ' + this.state.currentQuestion);
-
-        //     $(".q-wrapper").remove();
-        //     $(".q-header").remove();
-        //     this.nextQuestion(data);
-        // })
-
-        // $("#btnPrevious").on("click", data, (e) => {
-        //     console.log('previous');
-        //     let cQ = data.currentQuestion;
-        //     cQ--;
-        //     this.setState({
-        //         currentQuestion: cQ,
-        //     });
-
-        //     console.log('previous q ' + this.state.currentQuestion);
-
-        //     $(".q-wrapper").remove();
-        //     $(".q-header").remove();
-        //     this.nextQuestion(data);
-        // })
-
     }
 
     constructAnswer(aTxt, aId, aClicked, aCorrect) {
@@ -532,44 +491,14 @@ class App extends Component {
     }
 
     lastQuestion() {
-        // this.setState({
-        //     currentQuestion: 50,
-        // })
 
         if (this.state.currentQuestion === 50) {
-            // this.clearTimer();
+
             console.log('end game');
             $('#HUD').hide();
             $('.q-header').hide();
             $('.q-container').hide();
             $('#optionsRight').hide();
-
-            // this.setState({
-            //     end: new Date()
-            // })
-
-            // let e = this.state.end;
-
-            // console.log('e ' + e);
-
-            // let gameDuration = new Date() - e;
-
-            // console.log('gameDuration ' + gameDuration);
-
-            // let totalSeconds = Math.round(gameDuration / 1000);
-            // var minutes = Math.floor(totalSeconds / 60);
-            // var seconds = totalSeconds % 60;
-            // var pad = "00";
-            // pad = pad.toString();
-            // seconds = seconds.toString();
-            // seconds = pad.substring(0, pad.length - seconds.length) + seconds;
-            // let nT = minutes + ":" + seconds;
-
-            // console.log('newtime ' + nT);
-
-            // this.setState({
-            //     newTime: nT
-            // })
 
             clearTimeout(this.state.gameTime);
 
@@ -588,37 +517,6 @@ class App extends Component {
             this.state.container.append(fT);
 
         }
-        // else {
-        //     this.setState({
-        //         end: new Date()
-        //     })
-
-        //     let e = this.state.end;
-
-        //     console.log('e1 ' + e);
-
-        //     let gameDuration = new Date() - e;
-
-        //     console.log('gameDuration1 ' + gameDuration);
-
-        //     let totalSeconds = Math.round(gameDuration / 1000);
-        //     minutes = Math.floor(totalSeconds / 60);
-        //     seconds = totalSeconds % 60;
-        //     pad = "00";
-        //     pad = pad.toString();
-        //     seconds = seconds.toString();
-        //     seconds = pad.substring(0, pad.length - seconds.length) + seconds;
-        //     let nT = minutes + ":" + seconds;
-
-        //     console.log('newtime1 ' + nT);
-
-        //     await this.setState({
-        //         newTime: nT
-        //     })
-
-        //     console.log('newtime1.1 ' + nT);
-
-        // }
     }
 
     render() {
@@ -641,18 +539,6 @@ class App extends Component {
 
                     </div> <button onClick={() => { this.setupGame(); }} id="restart" style={{ cursor: 'pointer' }}>Restart</button>
                 </div>
-
-                {/* <div id="optionsRight" style={{ paddingRight: + '50', clear: 'both' }}>
-                    <span>&nbsp;&nbsp;
-                    <button onClick={() => { this.setupGame(); }} id="restart" style={{ cursor: 'pointer' }}>Restart</button>
-                    </span>
-                    <div id="pnlRestart">
-                    </div>
-                    <button onClick={() => { this.stopTimer(); }}
-                        className="stopTimer">Pause</button>
-                    <button onClick={() => { this.lastQuestion(); }}
-                        className="stopTimer">Last</button>
-                </div> */}
             </Fragment>
 
         );

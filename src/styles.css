@@ -83,21 +83,21 @@ body{
     padding-top: 0px;
 }
 
-    .a-wrapper.qi {
-        float: left;
-        width: 415px;
-        margin-right: 22px;
-        margin-left: 12px;
-        margin-top: 0%;
-    }
+.a-wrapper.qi {
+    float: left;
+    width: 415px;
+    margin-right: 22px;
+    margin-left: 12px;
+    margin-top: 0%;
+}
 
-    .a-wrapper.qi2 {
-        float: left;
-        width: 900px;
-        margin-right: 22px;
-        margin-left: 22px;
-        margin-top: 0%;
-    }
+.a-wrapper.qi2 {
+    float: left;
+    width: 900px;
+    margin-right: 22px;
+    margin-left: 22px;
+    margin-top: 0%;
+}
 
 .q-header {
     font-size: 1.4em;
@@ -147,44 +147,38 @@ body{
     float: left;
 }
 
+.q-img.q-img1 {
+    width: 306px;
+    margin-left: 15px;
+}
 
-    .q-img.q-img1 {
-        width: 306px;
-        margin-left: 15px;
-    }
+.q-img.q-img1 img {
+width: 400px;
+}
 
-        .q-img.q-img1 img {
-        width: 400px;
+.q-img.q-img2 {
+    clear: both;
+    width: 840px;
+    height: 500px;
+    margin-left: 0px;
+}
 
-    }
+.q-img.q-img2 img {
+    width: 840px;
+    height: 500px;
+}
 
-    .q-img.q-img2 {
-        clear: both;
-        width: 840px;
-        height: 500px;
-        margin-left: 0px;
-    }
-
-        .q-img.q-img2 img {
-            width: 840px;
-            height: 500px;
-        }
-
-
-
-
-
-    .q-img img {
-        height: auto;
-        border: 1px solid #bbbbbb;
-        position: relative;
-        left: 50%;
-        -webkit-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
-        transform: translateX(-50%);
-        top: -1px;
-        user-select: none;
-    }
+.q-img img {
+    height: auto;
+    border: 1px solid #bbbbbb;
+    position: relative;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    top: -1px;
+    user-select: none;
+}
 
 .q-container {
     width: 100%;
@@ -205,8 +199,6 @@ body{
     padding: 10px;
     box-sizing: border-box;
     margin: 0px 15px 15px 0px;
-    /* text-align: center;
-    align-content: center; */
     opacity: 0.7;
     background-color: #eeeeee;
     float: left;
@@ -222,7 +214,6 @@ body{
 
     background-color:#8bd38c;
 }
-
 
 .wrong {
 
@@ -264,8 +255,6 @@ body{
     font-size: .85em;
 }
 
-
-
 .img-wrapper img {
     height: 100%;
 }
@@ -274,7 +263,6 @@ body{
     float: left;
     height: 100%;
 }
-
 
 .btnBrowse:hover {
     cursor: pointer;
@@ -291,7 +279,6 @@ body{
 .a-content {
     width: 100%;
     height: 100%;
-    /* display: table-cell; */
     vertical-align: middle;
     overflow: hidden;
     text-align: center;
